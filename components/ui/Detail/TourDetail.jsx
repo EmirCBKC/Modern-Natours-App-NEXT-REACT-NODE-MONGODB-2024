@@ -26,7 +26,7 @@ export default function TourDetail({ selectedTour, slug, reqUser }) {
             <TourHeader tour={tour} />
             <TourDescription tour={tour} />
             <TourPictures tour={tour} />
-            <TourMap />
+            <TourMap tour={tour} />
             <TourReviews tour={tour} reqUser={reqUser} />
             <TourCTA tour={tour} reqUser={reqUser} />
         </>
