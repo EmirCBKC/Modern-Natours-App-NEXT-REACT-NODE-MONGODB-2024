@@ -63,5 +63,5 @@ export const PATCH = async (request, { params }) => {
 
     if (!updatedUser) throw new Error("User update failed...");
 
-    return Response.json({ message: "updatedUser" }, { status: 200 });
+    return Response.json(updatedUser, { status: 200 });
 };

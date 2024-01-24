@@ -45,26 +45,6 @@ export async function userLogout() {
     await signOut();
 };
 
-export async function requestUser(email) {
-
-    try {
-        const res = await fetch(`${process.env.LOCAL_HOST}/api/auth/requestuser/${email}`);
-
-        const user = await res.json();
-
-        if (!res.ok) {
-            throw new Error(user.message || "Not found user!");
-        }
-
-        return user;
-
-    } catch (error) {
-        // console.error(error.message);
-        throw error;
-    }
-
-};
-
 export async function updateUserData(newData) {
 
     try {
@@ -88,6 +68,12 @@ export async function updateUserData(newData) {
         if (!res.ok) {
             throw new Error(data.message || "Failed to update a user");
         }
+
+        await signIn("credentials", {
+            redirect: false,
+            email: data.email,
+            password: data.password
+        });
 
         return data;
 
@@ -116,6 +102,12 @@ export async function updateUserPassword(newData) {
         if (!res.ok) {
             throw new Error(data.message || "Failed to update a user");
         }
+
+        await signIn("credentials", {
+            redirect: false,
+            email: data.email,
+            password: data.password
+        });
 
         return data;
 

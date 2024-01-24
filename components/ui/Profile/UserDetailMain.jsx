@@ -1,22 +1,16 @@
 import { getMyBookings } from "@/services/apiBookings";
 import { getMyLikes } from "@/services/apiLikes";
 import { getMyReviews } from "@/services/apiReviews";
-import { requestUser } from "@/services/apiUsers";
-import { getServerSession } from "next-auth";
 import DetailContainer from "./includes/DetailContainer";
 import Style from "./user-detail.module.css";
 
-export default async function UserDetailMain() {
+export default async function UserDetailMain({ reqUser }) {
 
-    const session = await getServerSession();
+    const reqUserBookings = await getMyBookings(reqUser.id);
 
-    const reqUser = await requestUser(session?.user?.email);
+    const reqUserReviews = await getMyReviews(reqUser.id);
 
-    const reqUserBookings = await getMyBookings(reqUser._id);
-
-    const reqUserReviews = await getMyReviews(reqUser._id);
-
-    const reqUserLikes = await getMyLikes(reqUser._id);
+    const reqUserLikes = await getMyLikes(reqUser.id);
 
     return (
         <main className={Style.main}>

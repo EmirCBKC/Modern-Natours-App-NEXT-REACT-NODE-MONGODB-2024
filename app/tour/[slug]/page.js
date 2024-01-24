@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import TourDetail from "@/components/ui/Detail/TourDetail";
 import { getTour } from "@/services/apiTours";
-import { requestUser } from "@/services/apiUsers";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 
@@ -23,16 +23,11 @@ export default async function TourDetailPage({ params }) {
 
     const tour = await getTour(slug);
 
-    const session = await getServerSession();
-
-    let reqUser;
-    if (session) {
-        reqUser = await requestUser(session?.user?.email);
-    }
+    const session = await getServerSession(authOptions);
 
     return (
         <Suspense fallback={<Loading />}>
-            <TourDetail selectedTour={tour} slug={slug} reqUser={reqUser} />
+            <TourDetail selectedTour={tour} slug={slug} reqUser={session?.user} />
         </Suspense>
     )
 }

@@ -30,6 +30,7 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Please provide a password"],
         minlength: 8,
+        maxlength: 30
     },
     passwordConfirm: {
         type: String,
