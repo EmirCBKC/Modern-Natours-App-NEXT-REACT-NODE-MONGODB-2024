@@ -2,7 +2,6 @@
 import { addFilteredTour } from "@/global/tourSlice";
 import { getFiltered } from "@/services/apiTours";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import Style from "./all-tours.module.css";
@@ -11,21 +10,16 @@ export default function Filtered() {
 
     const dispatch = useDispatch();
 
-    const { mutate, data: filteredData, isLoading } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: getFiltered,
-        onSuccess: () => {
+        onSuccess: (filteredTours) => {
+            dispatch(addFilteredTour(filteredTours));
             reset();
         },
         onError: (err) => Console.error(err.message),
     });
 
     const { control, handleSubmit, reset } = useForm();
-
-    useEffect(() => {
-        if (filteredData) {
-            dispatch(addFilteredTour(filteredData));
-        }
-    }, [filteredData]);
 
     async function submitFilter(data) {
         mutate(data);
